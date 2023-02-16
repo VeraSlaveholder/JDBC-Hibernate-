@@ -62,7 +62,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try (session) {
 
 
-            List<User> list = session.createNativeQuery("SELECT * FROM Person")
+            List<User> list = session.createNativeQuery("SELECT * FROM users")
                     .addEntity(User.class)
                     .list();
 
@@ -77,7 +77,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try (session) {
-            session.createNativeQuery("TRUNCATE TABLE users");
+            session.createNativeQuery("TRUNCATE TABLE users").executeUpdate();
             session.getTransaction().commit();
         }
     }
