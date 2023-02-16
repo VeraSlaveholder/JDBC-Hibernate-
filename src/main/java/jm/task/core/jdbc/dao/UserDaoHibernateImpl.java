@@ -36,8 +36,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try (session) {
-            User user = new User(name, lastName, age);
-            session.save(user);
+            session.save(new User(name, lastName, age));
             session.getTransaction().commit();
         }
     }
@@ -60,8 +59,6 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try (session) {
-
-
             List<User> list = session.createNativeQuery("SELECT * FROM users")
                     .addEntity(User.class)
                     .list();
