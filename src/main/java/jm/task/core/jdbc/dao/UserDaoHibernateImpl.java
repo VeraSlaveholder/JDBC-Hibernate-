@@ -4,6 +4,7 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -13,10 +14,11 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void createUsersTable() {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
         try (session) {
-            session.createNativeQuery("create table IF NOT EXISTS users (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar(100), lastname varchar(100), age int)");
-            session.getTransaction().commit();
+            session.createNativeQuery("create table IF NOT EXISTS user (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar(100), lastname varchar(100), age int)")
+                    .executeUpdate();
+            transaction.commit();
         }
 
     }
@@ -24,10 +26,10 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void dropUsersTable() {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
         try (session) {
-            session.createNativeQuery("drop table if exists users");
-            session.getTransaction().commit();
+            session.createNativeQuery("drop table if exists user").executeUpdate();
+            transaction.commit();
         }
     }
 
@@ -36,7 +38,8 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try (session) {
-            session.save(new User(name, lastName, age));
+            User user = new User(name, lastName, age);
+            session.save(user);
             session.getTransaction().commit();
         }
     }
@@ -69,7 +72,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try (session) {
-            session.createNativeQuery("TRUNCATE TABLE users").executeUpdate();
+            session.createNativeQuery("TRUNCATE TABLE user").executeUpdate();
             session.getTransaction().commit();
         }
     }
