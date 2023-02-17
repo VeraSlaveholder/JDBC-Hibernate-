@@ -18,9 +18,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
-    String url = "jdbc:mysql://localhost:3306/javastudy";
-    String username = "root";
-    String password = "AliasVera2003";
     private static Connection conn = null;
     private static Util instance = null;
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -35,7 +32,7 @@ public class Util {
             if (null == conn || conn.isClosed()) {
                 Properties props = getProps();
                 conn = DriverManager
-                        .getConnection(props.getProperty(url), props.getProperty(username), props.getProperty(password));
+                        .getConnection(props.getProperty("url"), props.getProperty("username"), props.getProperty("password"));
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
