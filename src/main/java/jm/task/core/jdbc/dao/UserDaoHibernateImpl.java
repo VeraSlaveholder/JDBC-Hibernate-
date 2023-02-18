@@ -64,7 +64,6 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
             return list;
         }
-
     }
 
     @Override
