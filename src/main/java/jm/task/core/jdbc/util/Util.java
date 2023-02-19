@@ -18,18 +18,18 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
-    private static Connection conn = null;
-    private static Util instance = null;
+    private static Connection conn;
+    private static Util instance;
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String HOST = "jdbc:mysql://localhost:3306/javastudy";
     private static final String LOGIN = "root";
     private static final String PASSWORD = "AliasVera2003";
-    private static SessionFactory sessionFactory = null;
+    private static SessionFactory sessionFactory;
 
     //использование JDBC
     private Util() {
         try {
-            if (null == conn || conn.isClosed()) {
+            if (conn == null || conn.isClosed()) {
                 Properties props = getProps();
                 conn = DriverManager
                         .getConnection(props.getProperty("url"), props.getProperty("username"), props.getProperty("password"));
@@ -40,7 +40,7 @@ public class Util {
     }
 
     public static Util getInstance() {
-        if (null == instance) {
+        if (instance==null ) {
             instance = new Util();
         }
         return instance;
